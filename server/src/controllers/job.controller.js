@@ -3,7 +3,7 @@ import Job from "../modules/job.modules.js";
 import { calculateJobMatch } from "../utilses/utiles.match.js";
 import { IT_DOMAINS } from "../utilses/it.domain.js";
 
-/* 🔹 Extract skills from resume */
+/*  Extract skills from resume */
 function extractSkills(resumeText = "") {
   const text = resumeText.toLowerCase();
   const foundSkills = new Set();
@@ -21,7 +21,7 @@ function extractSkills(resumeText = "") {
   return Array.from(foundSkills);
 }
 
-/* 🔹 Build API search query */
+/*  Build API search query */
 function buildSearchQuery(skills = []) {
   if (!skills.length) return "software developer";
   return skills.slice(0, 6).join(" ");
@@ -35,11 +35,11 @@ export const recommendJobs = async (req, res) => {
       return res.status(400).json({ message: "Resume required" });
     }
 
-    /* 1️⃣ Extract skills */
+    /* 1 Extract skills */
     const skills = extractSkills(resumeText);
     const searchQuery = buildSearchQuery(skills);
 
-    /* 2️⃣ Fetch jobs from API */
+    /* 2 Fetch jobs from API */
     const response = await axios.get(
       "https://jsearch.p.rapidapi.com/search",
       {
@@ -63,7 +63,7 @@ export const recommendJobs = async (req, res) => {
       });
     }
 
-    /* 3️⃣ Process + Save Jobs */
+    /* 3️ Process + Save Jobs */
     const savedJobs = [];
 
     for (const job of apiJobs) {
@@ -72,7 +72,7 @@ export const recommendJobs = async (req, res) => {
         job.job_description || ""
       );
 
-      /* 🔁 Avoid duplicate jobs */
+      /* Avoid duplicate jobs */
       const exists = await Job.findOne({
         title: job.job_title,
         company: job.employer_name
@@ -88,7 +88,7 @@ export const recommendJobs = async (req, res) => {
         continue;
       }
 
-      /* 🧠 Create job document */
+      /*  Create job document */
       const newJob = new Job({
         title: job.job_title || "Not specified",
         company: job.employer_name || "Unknown",
@@ -114,7 +114,7 @@ export const recommendJobs = async (req, res) => {
       });
     }
 
-    /* 4️⃣ Final response */
+    /* 4️ Final response */
     res.json({
       success: true,
       skills,
