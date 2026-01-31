@@ -260,6 +260,7 @@ const Dashboard = () => {
                 {jobs.length > 0 && jobs.map((job, i) => (
                   <div key={i} className="border p-3 rounded">
                     <p className="font-semibold">{job.position}</p>
+                    <p className="font-semibold">{job.title}</p>
                     <p>{job.company}</p>
                     <p>{job.location}</p>
                     <p className="text-green-600 font-bold">Match: {job.matchPercentage}%</p>
