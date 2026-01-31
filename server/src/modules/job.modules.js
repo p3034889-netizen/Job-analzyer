@@ -1,9 +1,68 @@
 import mongoose from "mongoose";
 
-const resumeSchema = new mongoose.Schema({
-  text: { type: String, required: true },
-  score: Number,
-  createdAt: { type: Date, default: Date.now }
-});
+const jobSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true
+    },
 
-export default mongoose.model("Resume", resumeSchema);
+    company: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    location: {
+      type: String,
+      default: "Remote"
+    },
+
+    jobType: {
+      type: String,
+      enum: ["Full-time", "Part-time", "Internship", "Contract"],
+      default: "Full-time"
+    },
+
+    experienceLevel: {
+      type: String,
+      enum: ["Fresher", "Junior", "Mid", "Senior"],
+      default: "Fresher"
+    },
+
+    skills: [
+      {
+        type: String,
+        lowercase: true,
+        trim: true
+      }
+    ],
+
+    description: {
+      type: String,
+      required: true
+    },
+
+    salary: {
+      type: String
+    },
+
+    applyLink: {
+      type: String,
+      required: true
+    },
+
+    postedBy: {
+      type: String, // company HR / admin
+    },
+
+    isRemote: {
+      type: Boolean,
+      default: false
+    }
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model("Job", jobSchema);

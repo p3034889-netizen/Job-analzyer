@@ -24,14 +24,14 @@ app.use("/api/resume", resumeRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use(
   express.static(
-    path.join(__dirname, "../../frontend/dist")
+    path.join(__dirname, "../../client/dist")
   )
 );
 
 // ===== REACT FALLBACK (LAST!) =====
 app.get(/.*/, (req, res) => {
   res.sendFile(
-    path.join(__dirname, "../../frontend/dist/index.html")
+    path.join(__dirname, "../../client/dist/index.html")
   );
 });
 
